@@ -1,10 +1,27 @@
 from django.shortcuts import render
+from . models import Author,About, Fact, Skill, Testimonials
 
 def home(request):
-    return render(request,'index.html')
+    authors = Author.objects.all()
+    context = {
+        'authors':authors,
+    }
+    return render(request,'index.html',context)
+    
 
 def about(request):
-    return render(request,'about.html')
+    abouts = About.objects.all()
+    skills = Skill.objects.all()
+    facts = Fact.objects.all()
+    testimonials = Testimonials.objects.all()
+    # print(about)
+    context = {
+        'abouts':abouts,
+        'skills':skills,
+        'facts':facts,
+        'testimonials':testimonials
+    }
+    return render(request,'about.html',context)
 
 def contact(request):
     return render(request,'contact.html')
