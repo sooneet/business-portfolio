@@ -67,7 +67,41 @@ class Testimonials(models.Model):
     def __str__(self):
         return self.name
 
+
+class Summary(models.Model):
+    id = models.AutoField(primary_key=True)
+    person_name = models.CharField(max_length=50)
+    about_person =  models.TextField()
+    person_address = models.CharField(max_length=50)
+    person_phone = models.CharField(max_length=50)
+    person_email = models.EmailField(max_length=50)
+
+    def __str__(self):
+        return self.person_name
     
+
+class Education(models.Model):
+    id = models.AutoField(primary_key=True)
+    education_degree = models.CharField(max_length=50)
+    education_year = models.CharField(max_length=50)
+    education_university = models.CharField(max_length=50)
+    about_education =  models.TextField()
+
+    def __str__(self):
+        return self.education_degree
+
+
+class Experience(models.Model):
+    id = models.AutoField(primary_key=True)
+    experience_degree = models.CharField(max_length=50)
+    experience_year = models.CharField(max_length=50)
+    experience_university = models.CharField(max_length=50)
+    about_experience  = models.TextField()
+
+    def __str__(self):
+        return self.experience_degree
+
+
     
 
 
