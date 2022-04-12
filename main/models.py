@@ -1,6 +1,6 @@
-from operator import mod
-from unicodedata import name
 from django.db import models
+from django.contrib.auth.models import User
+from django.utils.html import mark_safe
 
 class Author(models.Model):
     id = models.AutoField(primary_key=True)
@@ -26,6 +26,9 @@ class About(models.Model):
     profession_details = models.CharField(max_length=200)
     about_pic = models.ImageField()
 
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="80" />' % (self.about_pic.url))
+
     def __str__(self):
         return self.profession_title
     
@@ -49,10 +52,6 @@ class Fact(models.Model):
     id = models.AutoField(primary_key=True)
     fact = models.CharField(max_length=50,null=True)
     fact_value = models.IntegerField(null=True) 
-    # clients = models.IntegerField()
-    # projects = models.IntegerField()
-    # hours_of_support = models.IntegerField()
-    # hard_workers = models.IntegerField()
 
     def __str__(self):
         return str(self.fact)
@@ -63,6 +62,9 @@ class Testimonials(models.Model):
     name = models.CharField(max_length=50)
     designation = models.CharField(max_length=50)
     testimonial_details = models.CharField(max_length=250)
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="80" />' % (self.profile_pic.url))    
 
     def __str__(self):
         return self.name
@@ -100,6 +102,52 @@ class Experience(models.Model):
 
     def __str__(self):
         return self.experience_degree
+
+class Service(models.Model):
+    id = models.AutoField(primary_key=True)
+    service_images = models.ImageField()
+    service_title = models.CharField(max_length=50)
+    service_details = models.TextField()
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="80" />' % (self.service_images.url))   
+
+    def __str__(self):
+        return self.service_title
+
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
+    album_user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True)
+    category_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.category_name
+
+class Album(models.Model):
+    id = models.AutoField(primary_key=True)
+    category = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True,blank=True)
+    album_image = models.ImageField(null=True,blank=True)
+    album_title = models.CharField(max_length=50,null=True)
+    album_subtitle = models.CharField(max_length=50,null=True)
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="80" />' % (self.album_image.url))       
+
+    def __str__(self):
+        return self.album_subtitle
+
+
+class Contact(models.Model):
+    id = models.AutoField(primary_key=True)
+    conatact_name = models.CharField(max_length=50)
+    contact_email = models.EmailField()
+    contact_subject = models.CharField(max_length=50)
+    contact_message = models.TextField()
+
+
+    def __str__(self):
+        return self.conatact_name
+
 
 
     
